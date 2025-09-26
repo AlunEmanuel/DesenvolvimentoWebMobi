@@ -1,0 +1,31 @@
+from django.shortcuts import render, redirect
+
+# Create your views here.
+from .models import Veiculo
+from django.views.generic import ListView, CreateView, View
+from .forms import VeiculoForm
+from django.core.exceptions import ObjectDoesNotExist
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+class Login(View):
+    def get(self, request):
+        contexto = {}
+        if request.user.is_authenticated:
+            return redirect("/veiculos")
+        else:
+            return render(request, 'autenticacao.html', contexto)
+        
+class ListarVeiculos(LoginRequiredMixin,ListView):
+    model = Veiculo
+    context_object_name = 'veiculos'
+    template_name = 'veiculos/listar.html'
+
+class CadastrarVeiculos(LoginRequiredMixin,CreateView):
+    model = Veiculo
+    form_class = VeiculoForm
+    context_object_name = 'veiculos'
+    template_name = 'veiculos/novo.html'
+    success_url = reverse_lazy('listar-veiculos') 
+
+        

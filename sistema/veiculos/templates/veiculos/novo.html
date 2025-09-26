@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{%block Titulo%}Cadastrar Veículo{%endblock%}
+
+{% block content %}
+    <form action="{% url 'cadastrar-veiculos' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class ="row">
+            <div class="col">
+                <label for="marca" class="form-label">Marca:</label>
+                {{ form.marca }}
+            </div>
+            <div class="col">
+                <label for="id_modelo" class="form-label">Modelo:</label>
+                {{ form.modelo }}
+            </div>
+            <div class="col">
+                <label for="id_ano" class="form-label">Ano:</label>
+                {{ form.ano }}
+            </div>
+            <div class="col">
+                <label for="id_cor" class="form-label">Cor:</label>
+                {{ form.cor }}
+            </div>
+            <div class="col">
+                <label for="id_tipo_combustivel" class="form-label">Tipo de Combustível:</label>
+                {{ form.combustivel }}
+            </div>
+        </div>
+        <button type="submit">Salvar</button>
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                {{ form.errors }}
+            </div>
+        {% endif %}
+        
+{% endblock %}

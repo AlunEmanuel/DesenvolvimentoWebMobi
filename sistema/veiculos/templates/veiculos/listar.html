@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Listar Veículos</title>
+</head>
+<body>
+    <h1>Lista de Veículos</h1>
+    <form action="{% url 'Logout' %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+    <form action="{% url 'cadastrar-veiculos' %}" method="get" style="display:inline;">
+        <button type="submit">Cadastrar Novo Veículo</button>
+    </form>
+    {% if veiculos %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Ano</th>
+                    <th>Cor</th>
+                    <th>Combustível</th>
+                    <th>Foto</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for veiculo in veiculos %}
+                    <tr>
+                        <td>{{ veiculo.id }}</td>
+                        <td>{{ veiculo.get_marca_display }}</td>
+                        <td>{{ veiculo.modelo }}</td>
+                        <td>{{ veiculo.ano }}</td>
+                        <td>{{ veiculo.get_cor_display }}</td>
+                        <td>{{ veiculo.get_combustivel_display }}</td>
+                        <td>
+                            {% if veiculo.foto %}
+                                <img src="{{ veiculo.foto.url }}" alt="Foto" width="100">
+                            {% else %}
+                                Sem foto
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Nenhum veículo cadastrado.</p>
+    {% endif %}
+</body>
+</html>
