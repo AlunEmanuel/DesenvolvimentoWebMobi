@@ -41,6 +41,12 @@
                                 Sem foto
                             {% endif %}
                         </td>
+                        <td>
+                            {% if veiculo.pk %}
+                                <a href="{% url 'editar-veiculos' veiculo.pk %}">Editar</a>
+                                <a href="{% url 'excluir-veiculos' veiculo.pk %}">Excluir</a>
+                            {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>

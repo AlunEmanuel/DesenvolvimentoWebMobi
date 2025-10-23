@@ -1,8 +1,6 @@
 from django.shortcuts import render, redirect
-
-# Create your views here.
+from django.views.generic import ListView, CreateView, View, UpdateView, DeleteView
 from .models import Veiculo
-from django.views.generic import ListView, CreateView, View
 from .forms import VeiculoForm
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse_lazy
@@ -28,4 +26,15 @@ class CadastrarVeiculos(LoginRequiredMixin,CreateView):
     template_name = 'veiculos/novo.html'
     success_url = reverse_lazy('listar-veiculos') 
 
-        
+class EditarVeiculos(LoginRequiredMixin,UpdateView):
+    model = Veiculo
+    form_class = VeiculoForm
+    context_object_name = 'veiculos'
+    template_name = 'veiculos/editar.html'
+    success_url = reverse_lazy('listar-veiculos') 
+
+class ExcluirVeiculos (LoginRequiredMixin,DeleteView):
+    model = Veiculo
+    context_object_name = 'veiculos'
+    template_name = 'veiculos/excluir.html' 
+    success_url = reverse_lazy('listar-veiculos')
