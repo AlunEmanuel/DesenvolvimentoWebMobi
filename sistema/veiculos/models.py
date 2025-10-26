@@ -12,6 +12,8 @@ class Veiculo(models.Model):
     cor = models.SmallIntegerField(choices=OPCOES_CORES)
     combustivel = models.SmallIntegerField(choices=OPCOES_COMBUSTIVEIS)
     foto = models.ImageField(blank=True, null= True, upload_to='veiculos/fotos')
+    #falta adicionar lógica de fotos 
+    #falta adicionar lógica de anuncios
 
     @property
     def veiculo_novo(self):
