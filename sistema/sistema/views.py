@@ -1,6 +1,7 @@
 from django.views import View
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth.forms import UserCreationForm
 from django.conf import settings
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
@@ -45,4 +46,26 @@ class LoginApi(ObtainAuthToken):
         return Response({
             'id': user.id, 'username': user.username, 'email': user.email, 'token': token.key})
 
- 
+class Registrar(View):
+    def get(self, request):
+        form = UserCreationForm()
+        return render(request, 'registro.html', {'form': form})
+
+    def post(self, request):
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            raw_password = form.cleaned_data.get('password1')
+            user = form.save()
+            user = authenticate(request, username=user.get_username(), password=raw_password)
+            if user is not None:
+                login(request, user)
+                token, _ = Token.objects.get_or_create(user=user)
+                contexto = {
+                    'token': token.key,
+                    'api_url': '/api/listar/',  
+                    'mensagem': 'Conta criada e logada com sucesso.',
+                }
+                return render(request, 'autenticacao.html', contexto)
+        return render(request, 'registro.html', {'form': form})
+
+
