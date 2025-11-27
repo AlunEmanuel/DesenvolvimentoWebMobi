@@ -5,13 +5,31 @@
 </head>
 <body>
     <h1>Lista de Veículos</h1>
-    <form action="{% url 'Logout' %}" method="post" style="display:inline;">
-        {% csrf_token %}
-        <button type="submit">Logout</button>
-    </form>
-    <form action="{% url 'cadastrar-veiculos' %}" method="get" style="display:inline;">
-        <button type="submit">Cadastrar Novo Veículo</button>
-    </form>
+
+    {% if user_is_authenticated %}
+        <form action="/logout/" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+        {% if api_url %}
+            <a href="{{ api_url }}" id="btn-api" style="margin-left:10px;">Ver API</a>
+        {% endif %}
+
+        {# Exibe token e exemplos de comando #}
+        <div style="margin-top:15px; padding:10px; border:1px solid #ddd; max-width:800px;">
+            <strong>Seu token de acesso:</strong>
+            <pre style="background:#f8f8f8; padding:8px; overflow:auto;">{{ token }}</pre>
+
+            <strong>Comando (usando header Authorization) -- Abra o terminal e cole o comando abaixo:</strong>
+            <pre style="background:#f8f8f8; padding:8px; overflow:auto;">{{ api_cmd_header }}</pre>
+        </div>
+    {% else %}
+        <a href="{% url 'registrar' %}" style="margin-right:10px;">Registrar</a>
+        <a href="{% url 'login' %}" style="margin-right:10px;">Login</a>
+    {% endif %}
+
+    <a href="{% url 'cadastrar-veiculos' %}" class="requires-auth" style="margin-left:10px;">Cadastrar Novo Veículo</a>
+
     {% if veiculos %}
         <table border="1">
             <thead>
@@ -23,6 +41,7 @@
                     <th>Cor</th>
                     <th>Combustível</th>
                     <th>Foto</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,8 +62,8 @@
                         </td>
                         <td>
                             {% if veiculo.pk %}
-                                <a href="{% url 'editar-veiculos' veiculo.pk %}">Editar</a>
-                                <a href="{% url 'excluir-veiculos' veiculo.pk %}">Excluir</a>
+                                <a href="{% url 'editar-veiculos' veiculo.pk %}" class="requires-auth">Editar</a>
+                                <a href="{% url 'excluir-veiculos' veiculo.pk %}" class="requires-auth">Excluir</a>
                             {% endif %}
                         </td>
                     </tr>
@@ -54,5 +73,7 @@
     {% else %}
         <p>Nenhum veículo cadastrado.</p>
     {% endif %}
+
+    
 </body>
 </html>

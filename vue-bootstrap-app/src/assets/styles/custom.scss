@@ -1,0 +1,85 @@
+$font-family-base: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+$body-bg: #fafafa;
+$body-color: #222;
+$primary-color: #2563eb; // Cor primária definida manualmente
+
+// Componentes customizados simples
+.app-container {
+    max-width: 1140px; // Valor fixo
+    margin: 0 auto;
+    padding: 1rem;
+    font-family: $font-family-base;
+    color: $body-color;
+    background: $body-bg;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: $primary-color; // Usando a cor primária manual
+    .logo {
+        width: 36px;
+        height: 36px;
+        border-radius: 0.5rem;
+        background: $primary-color; // Usando a cor primária manual
+        display: inline-block;
+    }
+}
+
+// Cartões com elevação sutil
+.card-elevated {
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: 0 6px 18px rgba(16, 24, 40, 0.06);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(16, 24, 40, 0.08);
+    }
+}
+
+// Botão "ghost" aplicado sobre cores primárias
+.btn-ghost {
+    background: transparent;
+    border: 1px solid rgba(0,0,0,0.06);
+    color: $primary-color; // Usando a cor primária manual
+    &:hover {
+        background: rgba(37,99,235,0.06);
+    }
+}
+
+// Avatar simples
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: inline-block;
+    img { width: 100%; height: 100%; object-fit: cover; }
+}
+
+// Utilities extras
+.text-truncate-2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+}
+
+// Responsividade de exemplo
+.header-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+}
+
+/* CSS media query padrão substituindo o include do mixin */
+@media (min-width: 720px) {
+    .header-grid {
+        grid-template-columns: 200px 1fr;
+        align-items: center;
+    }
+}

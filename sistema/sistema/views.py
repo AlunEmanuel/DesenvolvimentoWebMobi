@@ -32,7 +32,7 @@ class Login(View):
 class Logout(View):
     def post(self, request):
         logout(request)
-        return redirect("login")
+        return redirect('/login/')
 
 class LoginApi(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
